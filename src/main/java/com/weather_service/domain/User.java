@@ -39,9 +39,6 @@ public class User {
         this.lastApiCallTime = null;
     }
 
-    public void changeLanguage(String newLanguage) {
-        this.preferredLanguage = newLanguage;
-    }
 
     public void recordApiCall() {
         apiCallCount++;

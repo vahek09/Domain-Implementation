@@ -40,4 +40,8 @@ public class UserService {
     public Collection<User> listPremiumUsers() {
         return userRepository.findAllByFilter(true);
     }
+
+    public void changeLanguage(User user, String newLanguage) {
+        user.setPreferredLanguage(newLanguage);
+    }
 }
