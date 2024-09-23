@@ -8,13 +8,7 @@ import java.util.Map;
 
 public class UserRepository {
     private Map<String, User> usersById = new HashMap<>();
-
     private Map<String, User> usersByUsername = new HashMap<>();
-
-    public void addUser(User user) {
-        usersById.put(user.getUserID(), user);
-        usersByUsername.put(user.getUsername(), user);
-    }
 
     public User findById(String userId) {
         return usersById.get(userId);
@@ -28,7 +22,7 @@ public class UserRepository {
         return usersById.values();
     }
 
-    public void updateUser(User user) {
+    public void saveUser(User user) {
         usersById.put(user.getUserID(), user);
         usersByUsername.put(user.getUsername(), user);
     }

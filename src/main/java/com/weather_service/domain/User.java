@@ -14,6 +14,7 @@ public class User {
     private String preferredUnits;
     private String preferredLanguage;
     private boolean isPremium;
+    private boolean isAdmin;
     private boolean alertsEnabled;
     private String apiKey;
     private int apiCallCount;
@@ -24,13 +25,14 @@ public class User {
 
     }
 
-    public User(String userID, String username, String location, String preferredUnits, String preferredLanguage, boolean isPremium, boolean alertsEnabled, String apiKey) {
+    public User(String userID, String username, String location, String preferredUnits, String preferredLanguage, boolean isPremium,boolean isAdmin, boolean alertsEnabled, String apiKey) {
         this.userID = userID;
         this.username = username;
         this.location = location;
         this.preferredUnits = preferredUnits;
         this.preferredLanguage = preferredLanguage;
         this.isPremium = isPremium;
+        this.isAdmin = isAdmin;
         this.alertsEnabled = alertsEnabled;
         this.apiKey = apiKey;
         this.apiCallCount = 0;
