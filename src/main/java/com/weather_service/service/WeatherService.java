@@ -10,19 +10,19 @@ import java.net.URL;
 import java.util.List;
 
 public class WeatherService {
-//    private String baseURL = "https://api.openweathermap.org/data/3.0/onecall";
-//    private User currentUser; // Current user context
-//    private UserRepository userRepository;
-//
-//    public WeatherService(UserRepository userRepository) {
-//        this.userRepository = userRepository;
-//    }
-//
-//    // Set the current user
-//    public void setCurrentUser(String userId) {
-//        this.currentUser = userRepository.findById(userId);
-//    }
-//
+    private String baseURL = "https://api.openweathermap.org/data/3.0/onecall";
+    private User currentUser; // Current user context
+    private UserRepository userRepository;
+
+    public WeatherService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    // Set the current user
+    public void setCurrentUser(String userId) {
+        this.currentUser = userRepository.findById(userId);
+    }
+
 //    private String buildUrl(Location location, String exclude) {
 //        if (currentUser == null) {
 //            throw new IllegalStateException("Current user is not set.");
