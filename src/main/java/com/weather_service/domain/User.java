@@ -25,7 +25,7 @@ public class User {
 
     }
 
-    public User(String userID, String username, String location, String preferredUnits, String preferredLanguage, boolean isPremium,boolean isAdmin, boolean alertsEnabled, String apiKey) {
+    public User(String userID, String username, String location, String preferredUnits, String preferredLanguage, boolean isPremium, boolean isAdmin, boolean alertsEnabled, String apiKey) {
         this.userID = userID;
         this.username = username;
         this.location = location;
