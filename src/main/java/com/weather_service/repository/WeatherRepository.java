@@ -5,13 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WeatherRepository {
-    private Map<String, WeatherData> weatherDataMap = new HashMap<>();
+    private final Map<String, WeatherData> weatherDataMap = new HashMap<>();
 
     public void saveWeatherData(String locationKey, WeatherData weatherData) {
         weatherDataMap.put(locationKey, weatherData);
     }
 
-    // Retrieve weather data for a specific location
     public WeatherData getWeatherData(String locationKey) {
         return weatherDataMap.get(locationKey);
     }

@@ -22,6 +22,14 @@ public class UserRepository {
         return usersById.values();
     }
 
+    public boolean userExistsById(String userId) {
+        return usersById.containsKey(userId);
+    }
+
+    public boolean userExistsByUsername(String username) {
+        return usersByUsername.containsKey(username);
+    }
+
     public void saveUser(User user) {
         usersById.put(user.getUserID(), user);
         usersByUsername.put(user.getUsername(), user);
@@ -32,11 +40,5 @@ public class UserRepository {
         if (user != null) {
             usersByUsername.remove(user.getUsername());
         }
-    }
-
-    public Collection<User> findAllByFilter(boolean isPremium) {
-        return usersById.values().stream()
-                .filter(user -> user.isPremium() == isPremium)
-                .toList();
     }
 }

@@ -1,13 +1,14 @@
 package com.weather_service.service;
 
+import com.weather_service.service.core.UserService;
 import com.weather_service.domain.SystemSettings;
 import com.weather_service.domain.User;
+import com.weather_service.interfaces.SettingsManagerInterface;
 
-public class SettingsManager {
+public class SettingsManager implements SettingsManagerInterface {
 
     private final UserService userService;
 
-    // Constructor to inject the UserService
     public SettingsManager(UserService userService) {
         if (userService == null) {
             throw new IllegalArgumentException("UserService cannot be null");
@@ -15,18 +16,16 @@ public class SettingsManager {
         this.userService = userService;
     }
 
-    // Retrieve system settings for a user
+    @Override
     public SystemSettings getSystemSettings(User user) {
-        return new SystemSettings(user.getPreferredLanguage(), user.getPreferredUnits(), user.isAlertsEnabled());
+        return new SystemSettings(user.getPreferredLanguage(), user.getPreferredUnits());
     }
 
-    // Update settings for a user
-    public void updateSettings(User user, String newLanguage, String newUnits, boolean alertsEnabled) {
+    @Override
+    public void updateSettings(User user, String newLanguage, String newUnits) {
         user.setPreferredLanguage(newLanguage);
         user.setPreferredUnits(newUnits);
-        user.setAlertsEnabled(alertsEnabled);
 
-        // Use UserService to update the user
         userService.updateUser(user);
     }
 }

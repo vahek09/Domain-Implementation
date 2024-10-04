@@ -1,4 +1,4 @@
-package com.weather_service.domain.interfaces;
+package com.weather_service.interfaces;
 
 import com.weather_service.domain.User;
 

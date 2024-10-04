@@ -1,21 +1,28 @@
 package com.weather_service.domain;
 
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+
+@ToString
+@Getter
+@Setter
 public class WeatherData {
-//    private double temperature;
-//    private double humidity;
-//    private UVIndex uvIndex;
-//    private List<WeatherAlert> alerts;
-//    private List<Forecast> forecast;
-//    private String timeOfDay;
-//
-//    public List<WeatherAlert> filterData(String parameters) {
-//        //todo: Implement filtering of weather data based on parameters
-//        return null;
-//    }
-//
-//    public void convertUnits(String units) {
-//        //todo: Convert the weather data to the specified units (metric/imperial)
-//    }
+    private double temperature;
+    private double feelsLike;
+    private double tempMin;
+    private double tempMax;
+    private int pressure;
+    private int humidity;
+    private double windSpeed;
+    private int windDegree;
+    private int visibility;
+    private double rain1h;
+    private int cloudiness;
+    private long timestamp;
+    private String weatherDescription;
+    private String weatherIcon;
+    private String cityName;
+
 }
