@@ -36,3 +36,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Ignore the .env file containing sensitive data
+.env
+
+# Ignore the .idea file
+.idea

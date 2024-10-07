@@ -8,6 +8,7 @@ import com.weather_service.service.Helpers.GeocodingService;
 import com.weather_service.service.Helpers.WeatherApiClient;
 import com.weather_service.service.Helpers.WeatherDataParser;
 import com.weather_service.utility.InputUtility;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.json.JSONException;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.Scanner;
 
 public class AppService {
 
+    private static final String API_KEY_ENV = "OPENWEATHER_API_KEY";
     private UserService userService;
     private WeatherService weatherService;
     private AdminService adminService;
@@ -22,7 +24,8 @@ public class AppService {
     private SettingsManager settingsManager;
 
     public void initializeComponents() {
-        String sharedApiKey = "null";
+        Dotenv dotenv = Dotenv.load();
+        String sharedApiKey = dotenv.get(API_KEY_ENV);
 
         // Initialize repositories
         UserRepository userRepository = new UserRepository();
