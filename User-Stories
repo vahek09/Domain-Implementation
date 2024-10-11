@@ -1,0 +1,16 @@
+User Stories (Refined):
+For Users:
+As a user, I want to open the app to access weather information quickly and easily.
+As a user, I want to request current weather data for my location to stay informed about the current weather.
+As a user, I want to view a 5-day weather forecast for my location to plan my activities.
+As a user, I want to manually update my location using coordinates so that I can get weather information for the correct place.
+As a user, I want to check system settings like preferred language and units so that the weather data is displayed according to my preferences.
+As a user, I want to receive weather data in my preferred units (Celsius or Fahrenheit) to better understand the information.
+As a user, I want to change my preferred language to use the application in a language I'm comfortable with.
+
+For Admins:
+As an admin, I want to manage API keys for users to ensure only authorized access to weather services.
+As an admin, I want to view user activity and usage statistics to monitor API usage and optimize system performance.
+As an admin, I want to clear the weather data cache to ensure the system is up-to-date and runs efficiently.
+As an admin, I want to manage user system settings to help users with configuration issues or updates.
+As an admin, I want to create and delete user accounts to manage who has access to the system.
