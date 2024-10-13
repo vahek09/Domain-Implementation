@@ -8,8 +8,6 @@ CREATE TABLE IF NOT EXISTS locations (
 CREATE TABLE IF NOT EXISTS users (
     user_id SERIAL PRIMARY KEY,
     username VARCHAR(100) NOT NULL,
-    preferred_language VARCHAR(10),
-    preferred_units VARCHAR(10),
     is_admin BOOLEAN DEFAULT FALSE,
     api_key VARCHAR(100),
     api_call_count INT DEFAULT 0,
@@ -38,8 +36,6 @@ CREATE TABLE IF NOT EXISTS weather_data (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
-
-
 CREATE TABLE IF NOT EXISTS admins (
     admin_id SERIAL PRIMARY KEY,
     user_id INT,
@@ -61,13 +57,6 @@ CREATE TABLE IF NOT EXISTS manages (
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (weather_data_id) REFERENCES weather_data(weather_data_id)
 );
-
--- Adding foreign key constraints
-ALTER TABLE IF EXISTS manages
-ADD CONSTRAINT IF NOT EXISTS fk_manages_on_users FOREIGN KEY (user_id) REFERENCES users(user_id);
-
-ALTER TABLE IF EXISTS manages
-ADD CONSTRAINT IF NOT EXISTS fk_manages_on_weather_data FOREIGN KEY (weather_data_id) REFERENCES weather_data(weather_data_id);
 
 -- Creating indexes
 CREATE INDEX IF NOT EXISTS idx_manages_user_id ON manages (user_id);
