@@ -1,0 +1,8 @@
+## DriverManager
+Decrease the application performance as the connections are created/closed in java classes.
+Does not support connection pooling, which means it is not friendly for multithread. 
+
+## DataSource (More preferable for big projects)
+Improves application performance as connections are not created/closed within a class, they are managed by the application server and can be fetched while at runtime.
+it provides a facility creating a pool of connections
+helpful for enterprise applications
