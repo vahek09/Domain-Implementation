@@ -58,6 +58,14 @@ CREATE TABLE IF NOT EXISTS manages (
     FOREIGN KEY (weather_data_id) REFERENCES weather_data(weather_data_id)
 );
 
--- Creating indexes
-CREATE INDEX IF NOT EXISTS idx_manages_user_id ON manages (user_id);
-CREATE INDEX IF NOT EXISTS idx_manages_weather_data_id ON manages (weather_data_id);
+---- Creating indexes
+--CREATE INDEX IF NOT EXISTS idx_users_username ON users (username);
+--CREATE INDEX IF NOT EXISTS idx_manages_user_id ON manages (user_id);
+--CREATE INDEX IF NOT EXISTS idx_manages_weather_data_id ON manages (weather_data_id);
+--CREATE INDEX idx_location_coords ON locations (latitude, longitude);
+--CREATE INDEX idx_weather_data_timestamp ON weather_data(timestamp);
+--CREATE INDEX IF NOT EXISTS idx_weather_data_location_id ON weather_data (location_id);
+
+
+
+
