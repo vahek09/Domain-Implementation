@@ -18,11 +18,13 @@ public class JdbcUtility {
         this.pooledDataSource = pooledDataSource;
     }
 
-    // Existing execute method
+    public Connection getConnection() throws SQLException {
+        return pooledDataSource.getConnection();
+    }
+
     public void execute(String query, Object... args) {
         try (Connection connection = pooledDataSource.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(query)) {
-
             setPreparedStatementParameters(pstmt, args);
             pstmt.execute();
         } catch (SQLException e) {
@@ -30,23 +32,25 @@ public class JdbcUtility {
         }
     }
 
-    // Existing findOne method
+    public void execute(Connection connection, String query, Object... args) throws SQLException {
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            setPreparedStatementParameters(pstmt, args);
+            pstmt.execute();
+        }
+    }
+
     public <T> T findOne(String query, Function<ResultSet, T> mapper, Object... args) {
         try (Connection connection = pooledDataSource.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(query)) {
-
             setPreparedStatementParameters(pstmt, args);
             ResultSet rs = pstmt.executeQuery();
-
             if (!rs.next()) {
                 return null;
             }
             T result = mapper.apply(rs);
-
             if (rs.next()) {
                 throw new RuntimeException("Expected one result, but got more than one.");
             }
-
             return result;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,15 +58,12 @@ public class JdbcUtility {
         return null;
     }
 
-    // New findMany method to return a list of results
     public <T> List<T> findMany(String query, Function<ResultSet, T> mapper, Object... args) {
         List<T> results = new ArrayList<>();
         try (Connection connection = pooledDataSource.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(query)) {
-
             setPreparedStatementParameters(pstmt, args);
             ResultSet rs = pstmt.executeQuery();
-
             while (rs.next()) {
                 results.add(mapper.apply(rs));
             }
@@ -72,7 +73,6 @@ public class JdbcUtility {
         return results;
     }
 
-    // Helper method to set parameters for PreparedStatement
     private void setPreparedStatementParameters(PreparedStatement pstmt, Object... args) throws SQLException {
         for (int i = 0; i < args.length; i++) {
             pstmt.setObject(i + 1, args[i]);

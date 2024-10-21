@@ -1,9 +1,12 @@
 package com.weather_service.repository;
 
 import com.weather_service.domain.User;
+import com.weather_service.domain.WeatherData;
 import com.weather_service.utility.JdbcUtility;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class UserDAO {
@@ -55,4 +58,76 @@ public class UserDAO {
             throw new RuntimeException("Error mapping row to User", e);
         }
     }
+
+
+    // Without Transaction
+    public void insertUserAndWeatherDataWithoutTransaction(User user, WeatherData weatherData, int locationId) {
+        String insertUserQuery = "INSERT INTO users (user_id, username, is_admin, api_key, api_call_count, last_api_call_time) VALUES (?, ?, ?, ?, ?, ?)";
+        String insertWeatherDataQuery = "INSERT INTO weather_data (location_id, user_id, temperature, feels_like, temp_min, temp_max, humidity, pressure, wind_speed, wind_degree, visibility, rain_1h, cloudiness, timestamp, weather_description, weather_icon) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try {
+            // Insert user
+            jdbcUtility.execute(insertUserQuery, user.getUserID(), user.getUsername(), user.isAdmin(), user.getApiKey(), user.getApiCallCount(), user.getLastApiCallTime());
+
+            // Insert weather data
+            jdbcUtility.execute(insertWeatherDataQuery, locationId, user.getUserID(), weatherData.getTemperature(), weatherData.getFeelsLike(), weatherData.getTempMin(), weatherData.getTempMax(),
+                    weatherData.getHumidity(), weatherData.getPressure(), weatherData.getWindSpeed(), weatherData.getWindDegree(),
+                    weatherData.getVisibility(), weatherData.getRain1h(), weatherData.getCloudiness(), weatherData.getTimestamp(),
+                    weatherData.getWeatherDescription(), weatherData.getWeatherIcon());
+
+            // Simulating failure after weather data insertion to demonstrate an inconsistent state
+            throw new SQLException("Simulated failure after user and weather data insertion");
+
+        } catch (SQLException e) {
+            // No rollback here, so the User will be inserted but WeatherData will not
+            e.printStackTrace();
+        }
+    }
+
+
+    public void insertUserAndWeatherDataWithTransaction(User user, WeatherData weatherData, int locationId) {
+        String insertUserQuery = "INSERT INTO users (user_id, username, is_admin, api_key, api_call_count, last_api_call_time) VALUES (?, ?, ?, ?, ?, ?)";
+        String insertWeatherDataQuery = "INSERT INTO weather_data (location_id, user_id, temperature, feels_like, temp_min, temp_max, humidity, pressure, wind_speed, wind_degree, visibility, rain_1h, cloudiness, timestamp, weather_description, weather_icon) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        Connection connection = null;
+        try {
+            connection = jdbcUtility.getConnection();
+            connection.setAutoCommit(false);  // Begin the transaction
+
+            jdbcUtility.execute(connection, insertUserQuery, user.getUserID(), user.getUsername(), user.isAdmin(), user.getApiKey(), user.getApiCallCount(), user.getLastApiCallTime());
+
+            jdbcUtility.execute(connection, insertWeatherDataQuery, locationId, user.getUserID(), weatherData.getTemperature(), weatherData.getFeelsLike(), weatherData.getTempMin(), weatherData.getTempMax(),
+                    weatherData.getHumidity(), weatherData.getPressure(), weatherData.getWindSpeed(), weatherData.getWindDegree(),
+                    weatherData.getVisibility(), weatherData.getRain1h(), weatherData.getCloudiness(), weatherData.getTimestamp(),
+                    weatherData.getWeatherDescription(), weatherData.getWeatherIcon());
+
+            connection.commit();
+            System.out.println("Transaction committed successfully");
+
+            throw new SQLException("Simulated failure after user and weather data insertion");
+
+        } catch (SQLException e) {
+            if (connection != null) {
+                try {
+                    System.out.println("Rolling back due to error...");
+                    connection.rollback();
+                } catch (SQLException rollbackEx) {
+                    rollbackEx.printStackTrace();
+                }
+            }
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 }
+
